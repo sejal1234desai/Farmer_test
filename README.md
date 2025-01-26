@@ -51,7 +51,7 @@ Clone the Repository:
 
 bash
 
-git clone https://github.com/sejal1234desai/agroforestry_management_system.git
+git clone https://github.com/sejal1234desai/Farmer_test/tree/master
 
 Navigate to the Project Directory:
 cd agroforestry_management_system
@@ -110,6 +110,14 @@ create_users()
 ##Run this script in the Django shell (python manage.py shell).
 
 
+check login one by one for each Then and Test the cases 
+
+Run the Development Server:
+
+python manage.py runserver
+Access the Application: Open your browser and go to http://127.0.0.1:8000/.
 
 
-**
+
+
+
