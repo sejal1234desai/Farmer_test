@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Farmers</title>
+</head>
+<style>
+    body {
+        background-color: #8e44ad; /* Purple */
+        color: #ffffff;
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1, h2 {
+        text-align: center;
+        color: #ecf0f1; /* Light Gray */
+    }
+
+    form {
+        background: #732d91; /* Darker Purple */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+        color: #ffffff; /* White */
+    }
+
+    input[type="text"], input[type="file"] {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ffffff; /* White */
+        border-radius: 5px;
+    }
+
+    button {
+        background-color: #d35400; /* Pumpkin Orange */
+        color: #ffffff;
+        border: none;
+        padding: 10px;
+        width: 100%;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background-color: #c0392b; /* Darker Pumpkin */
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ffffff; /* White */
+    }
+
+    th {
+        background-color: #1abc9c; /* Light Teal */
+    }
+</style>
+<body>
+    <h1>Farmer Data Management</h1>
+
+    <!-- ##Add Farmer Form## -->
+    {% if can_add_farmer %}
+        <h2>Add Farmer</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="name">Farmer Name:</label>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="contact">Contact Number:</label>
+            <input type="text" id="contact" name="contact" required><br><br>
+
+            <label for="field_photo">Field Photo:</label>
+            <input type="file" id="field_photo" name="field_photo"><br><br>
+
+            <label for="plot_location">Plot Location:</label>
+            <input type="text" id="plot_location" name="plot_location" required><br><br>
+
+            <label for="tree_species">Tree Species (e.g., Mango-100, Lemon-50):</label>
+            <input type="text" id="tree_species" name="tree_species" required><br><br>
+
+            <button type="submit">Add Farmer</button>
+        </form>
+        <hr>
+    {% endif %}
+
+    <!--## Farmer Data Table ##-->
+    <h2>Existing Farmers</h2>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Field Photo</th>
+            <th>Plot Location</th>
+            <th>Tree Species</th>
+            {% if role == 'Senior Manager' %}
+                <th>Actions</th>
+            {% endif %}
+        </tr>
+        {% for farmer in farmers %}
+        <tr>
+            <td>{{ farmer.name }}</td>
+            <td>{{ farmer.contact }}</td>
+            <td>
+                {% if farmer.field_photo %}
+                    <img src="{{ farmer.field_photo.url }}" alt="Field Photo" width="100">
+                {% else %}
+                    No Photo
+                {% endif %}
+            </td>
+            <td>{{ farmer.plot_location }}</td>
+            <td>
+                {% for species in farmer.tree_species.all %}
+                    {{ species.species_name }} - {{ species.quantity }}<br>
+                {% endfor %}
+            </td>
+            {% if role == 'Senior Manager' %}
+                <td>
+                    {% if farmer.id %}
+                        <form method="post" action="{% url 'edit_farmer' farmer.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit">Edit</button>
+                        </form>
+                        <form method="post" action="{% url 'delete_farmer' farmer.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" onclick="return confirm('Are you sure you want to delete this farmer?');">Delete</button>
+                        </form>
+                    {% endif %}
+                </td>
+            {% endif %}
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">No farmers available.</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

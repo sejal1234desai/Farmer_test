@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Farmer</title>
+    <style>
+        body {
+            background-color: #8e44ad; /* Purple */
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            background: #732d91; /* Darker Purple */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        label {
+            font-weight: bold;
+            color: #ffffff; /* White */
+        }
+        input[type="text"], input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ffffff; /* White */
+            border-radius: 5px;
+        }
+        button {
+            background-color: #d35400; /* Pumpkin Orange */
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #c0392b; /* Darker Pumpkin */
+        }
+    </style>
+</head>
+<body>
+    <h2>Edit Farmer: {{ farmer.name }}</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+       
+        <label for="name">Farmer Name:</label>
+        <input type="text" id="name" name="name" value="{{ farmer.name }}" required><br><br>
+
+        <label for="contact">Contact Number:</label>
+        <input type="text" id="contact" name="contact" value="{{ farmer.contact }}" required><br><br>
+
+        <label for="field_photo">Field Photo:</label>
+        <input type="file" id="field_photo" name="field_photo"><br><br>
+
+        <label for="plot_location">Plot Location:</label>
+        <input type="text" id="plot_location" name="plot_location" value="{{ farmer.plot_location }}" required><br><br>
+
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>
+
