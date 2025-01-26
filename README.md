@@ -26,15 +26,24 @@ Username: sejal
 Password: sejal2001# 
 Regular User:
 
-Username: A (Exicutive A)
+(Field Executive A)
+Username: A 
 Password: password123 
-Username: B (Exicutive B)
+
+ (Field Executive B)
+Username: B
 Password: password123 
-Username: C (Manager C)
+
+(Field Manager C)
+Username: C 
 Password: password123 
-Username: D (Manager D)
+
+(Field Managers D)
+Username: D 
 Password: password123 
-Username: E (Manager E)
+
+( Senior Manager E)
+Username: E 
 Password: password123 
 
 Installation
